@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [btnText, setbtnText] = useState("Login");
   const onlineStatus = useOnlineStatus();
+  const { loggedInUser } = useContext(UserContext);
+  const cartItems = useSelector((store) => store.cart.items);
   return (
     <div className="header">
       <div className="logo-container">
@@ -17,7 +21,7 @@ const Header = () => {
 
       <div className="nav-items">
         <ul className="nav">
-          <li>Online Status :{onlineStatus===false?"❌":"✅"}</li>
+          <li>Online Status :{onlineStatus === false ? "❌" : "✅"}</li>
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -27,15 +31,22 @@ const Header = () => {
           <li>
             <Link to="/contact">Contact Us</Link>
           </li>
-          <li>Cart</li>
-          <button
+          <li>      
+            <Link to="/cart">
+              <p className="font-bold text-xl">
+                Cart- {cartItems.length} items
+              </p>
+            </Link>
+          </li>
+          {/* <button
             className="login-button"
             onClick={() => {
               btnText === "Login" ? setbtnText("Logout") : setbtnText("Login");
             }}
           >
             {btnText}
-          </button>
+          </button> */}
+          <li>{loggedInUser}</li>
         </ul>
       </div>
     </div>

@@ -14,11 +14,15 @@ const useRestaurantMenu = (resId) => {
 
     const datajson = await data.json();
     
-    console.log(datajson.data.cards[2].groupedCard.cardGroupMap.REGULAR.cards[2]);
-    setResMenu(
-      datajson.data.cards[2].groupedCard.cardGroupMap.REGULAR.cards[2].card.card
-        .itemCards
-    );
+    // console.log("Hello -> ",datajson.data.cards[2].groupedCard.cardGroupMap.REGULAR.cards);
+
+    const categories = datajson.data.cards[2].groupedCard.cardGroupMap.REGULAR.cards.filter((c)=>
+      c.card?.card?.["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    )
+
+    console.log("Hola -> ", categories);
+
+    setResMenu(categories);
   };
   return resMenu;
 };
